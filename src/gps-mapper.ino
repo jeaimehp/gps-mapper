@@ -230,10 +230,11 @@ void loop()
     }
     else if (buttonB){
       display.clearDisplay();
-      display.setTextSize(1);
+      display.setTextSize(2);
       display.setTextColor(WHITE);
       display.setCursor(0,0);
       display.println("Current File:");
+      display.setTextSize(1);
       display.println(datafile_name);
       display.display();
     }
