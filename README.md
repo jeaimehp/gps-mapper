@@ -1,6 +1,32 @@
 # gps-mapper
 
-A Particle project named gps-mapper
+This project was created using a Particle Boron and GPS module to map cell reception signal strength. 
+
+## Particle Project Link:
+https://go.particle.io/shared_apps/5ee1516449afab0007c22522
+
+## Materials
+* Particle Boron
+* Featherwing Tripler
+* Adafruit Ultimate GPS FeatherWing
+* IPEX mini PCI to SMA Connector
+* 4G LTE SMA Antenna
+* 2000 mAH Lipo Battery
+* Enclosure (Boron Dev Kit Case Pictured)
+* 2 Position Terminal SPDT Latching Mini Toggle Switch
+
+*Not Pictured*
+* Vehicle SMA GPS Antenna
+* 1/2" PVC ~4'
+* 1/2" PVC T-connector
+* 2 * 1/2" PVC 90 Degree Elbow Connectors 
+
+
+![Cell-sig-logger](https://user-images.githubusercontent.com/11817583/135155303-3fac4cbb-ecd5-449d-9526-e3e3c8369aa3.png)
+
+
+---
+# VS Code - Particle Workbench Extention Info
 
 ## Welcome to your project!
 
