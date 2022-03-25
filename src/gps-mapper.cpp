@@ -123,6 +123,7 @@ void setup()
   display.setup();
   display.clearDisplay();
   display.display();
+  display.setRotation(2);
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor(0,0);
@@ -177,6 +178,11 @@ void setup()
    // Button C - D2 on Particle Boron with featherwing oled adafruit
     pinMode(D2, INPUT_PULLUP);
     attachInterrupt(D2, displayvoltage_button_C, CHANGE);
+
+Particle.syncTime();
+delay(2000);
+// Set Filename
+datafile_name = String(myID+"-"+Time.year()+Time.month()+Time.day()+Time.hour()+Time.minute()+".csv");
 
 }
 
