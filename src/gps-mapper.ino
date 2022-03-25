@@ -73,6 +73,28 @@ unsigned long pub_time = 30;
 // Convert pub_time to milliseconds
 int pub_time_milli = pub_time * 1000;
 
+bool buttonA = true;
+bool buttonB = false;
+bool buttonC = false;
+
+
+void displayvoltage_button_A (void) {
+  buttonA = true;
+  buttonB = false;
+  buttonC = false;
+};
+
+void displayvoltage_button_B (void) {
+  buttonA = false;
+  buttonB = true;
+  buttonC = false;
+};
+
+void displayvoltage_button_C (void) {
+  buttonA = false;
+  buttonB = false;
+  buttonC = true;
+};
 
 void setup()
 {
@@ -127,6 +149,21 @@ void setup()
           display.display();
             delay(1000);
      }
+  
+  // -- Button Interupt Setup -- //
+ 
+  // Button A - D2 on Particle Boron with featherwing oled adafruit
+    pinMode(D4, INPUT_PULLUP);
+    attachInterrupt(D4, displayvoltage_button_A, CHANGE);
+  
+  // Button B - D3 on Particle Boron with featherwing oled adafruit
+    pinMode(D3, INPUT_PULLUP);
+    attachInterrupt(D3, displayvoltage_button_B, CHANGE);
+  
+   // Button C - D2 on Particle Boron with featherwing oled adafruit
+    pinMode(D2, INPUT_PULLUP);
+    attachInterrupt(D2, displayvoltage_button_C, CHANGE);
+
 }
 
 void onSerialData()
@@ -173,19 +210,47 @@ void loop()
     // Boron Cell signal strength
     CellularSignal sig = Cellular.RSSI();
     
+    // Set timestamp
+    String timeStamp = Time.format(Time.now(), TIME_FORMAT_ISO8601_FULL);
+
     //OELD Display
-    display.clearDisplay();
-    display.setTextSize(1);
-	display.setTextColor(WHITE);
-    display.setCursor(0,0);
-    display.println("Fix:" + String(gga.positionFixIndicator)+"  " + "Cell-Sig:" + int(sig.getStrength()) +"%");
-    
-    display.setCursor(0,10);
-    display.println("Lat:" + String(gga.northSouthIndicator)+" "+String(conv_coords(gga.latitude.toFloat())));
-    display.setCursor(0,20);
-    display.println("Long:" + String(gga.eastWestIndicator) +" "+String(conv_coords(gga.longitude.toFloat())));
-	display.display();
-	String timeStamp = Time.format(Time.now(), TIME_FORMAT_ISO8601_FULL);
+    // button A (default display)  
+    if (buttonA) { 
+      display.clearDisplay();
+      display.setTextSize(1);
+      display.setTextColor(WHITE);
+      display.setCursor(0,0);
+      display.println("Fix:" + String(gga.positionFixIndicator)+"  " + "Cell-Sig:" + int(sig.getStrength()) +"%");
+      
+      display.setCursor(0,10);
+      display.println("Lat:" + String(gga.northSouthIndicator)+" "+String(conv_coords(gga.latitude.toFloat())));
+      display.setCursor(0,20);
+      display.println("Long:" + String(gga.eastWestIndicator) +" "+String(conv_coords(gga.longitude.toFloat())));
+      display.display();
+    }
+    else if (buttonB){
+      display.clearDisplay();
+      display.setTextSize(1);
+      display.setTextColor(WHITE);
+      display.setCursor(0,0);
+      display.println("Current File:");
+      display.println(datafile_name);
+      display.display();
+    }
+    else if (buttonC){
+      display.clearDisplay();
+      display.setTextSize(1);
+      display.setTextColor(WHITE);
+      display.setCursor(0,0);
+      display.println(timeStamp);
+      display.setCursor(0,10);
+      display.print("Battery: ");
+      display.print(int(System.batteryCharge()));
+      display.println(" %");
+      display.display();
+    }
+  
+ 
 	SPI.setDataMode(SPI_MODE0);
 	
 	if (gga.positionFixIndicator != 0){
